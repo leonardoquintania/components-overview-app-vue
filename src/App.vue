@@ -1,17 +1,65 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <global-component></global-component>
+  <local-component :title="title" @addClick="count += $event">
+    <!-- Slot Teste -->
+    <template v-slot:header>
+      Slot Header
+    </template>
+    <template v-slot:content>
+      Slot content
+    </template>
+  </local-component>
+  <p>Count: {{ count }}</p>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
+import LocalComponent from './components/LocalComponent.vue';
 export default {
-  name: 'App',
+  data() {
+    return {
+      title: 'Component Title',
+      count: 0,
+    };
+  },
+  methods: {},
   components: {
-    HelloWorld
-  }
-}
+    LocalComponent,
+  },
+  computed: {
+    computedTitle() {
+      return 'Teste ' + this.title;
+    },
+  },
+  //-- hooks de inicialização
+  beforeCreate() {
+    console.log('beforeCreate', this.title, this.computedTitle);
+  },
+  created() {
+    console.log('created', this.title, this.computedTitle);
+  },
+  //-- hooks de montagem (inserção no DOM)
+  beforeMount() {
+    console.log('beforeMount');
+  },
+  mounted() {
+    console.log('mounted');
+  },
+  //-- hooks de atualizações
+  beforeUpdate() {
+    console.log('beforeUpdate');
+  },
+  updated() {
+    console.log('updated');
+  },
+
+  //-- hooks de destruição
+  beforeUnmount() {
+    console.log('beforeUnmount');
+  },
+  unmounted() {
+    console.log('unmounted');
+  },
+};
 </script>
 
 <style>
